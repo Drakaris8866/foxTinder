@@ -1,8 +1,47 @@
-import { FC } from 'react'
+import {FC} from 'react'
+import {Button, Input} from "antd";
 
-const AuthForm : FC = () => {
+import styles from './AuthForm.module.scss'
+import {Controller, useForm} from "react-hook-form";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useActions} from "../../hooks/useActions";
+import {IUnamePassword} from "../../store/user/user.types";
+import Title from '../ui/Title/Title';
+
+type FormData = {
+    username: string;
+    password: string;
+};
+
+const AuthForm: FC = () => {
+
+    const {pathname, state} = useLocation()
+    const navigate = useNavigate()
+
+    const {registration, login} = useActions()
+
+    const {formState, handleSubmit, control} = useForm<FormData>({mode: "onChange"})
+
+    const onSubmit = async ({username, password}: IUnamePassword) => {
+        if (pathname === "/registration") {
+            const res = await registration({username, password})
+        }
+        const res = await login({username, password})
+
+        state ? navigate(`${state.from.pathname}`) : navigate("/")
+    }
+
     return (
-        <div></div>
+        <div className={styles.wrapper}>
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+                <Title text={`${pathname === "/registration" ? "Registration" : "Login"} `}/>
+                <Controller name="username" control={control}
+                            render={({field}) => <Input {...field} bordered={false} placeholder="UserName"/>}/>
+                <Controller name="password" control={control}
+                            render={({field}) => <Input {...field} bordered={false} placeholder="Password"/>}/>
+                <Button htmlType="submit" size="large">Submit</Button>
+            </form>
+        </div>
     );
 }
 

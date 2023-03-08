@@ -1,0 +1,25 @@
+.wrapper {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+
+  .form {
+    padding: 30px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 1px 5px 15px -5px rgba(34, 60, 80, 1);
+
+    > input {
+      border-bottom: 3px solid #ff8000;
+      border-radius: 0;
+    }
+
+    > button {
+      background: #ff8000;
+      color: #fff;
+      font-weight: 700;
+    }
+  }
+}

@@ -1,0 +1,55 @@
+.navbar {
+  background: #ff6200;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 24px;
+  .logo {
+
+  }
+
+  .menu {
+    display: flex;
+    gap: 15px;
+    .item {
+      position: relative;
+
+      &:after{
+        transition: 0.5s all ease-out;
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 2px;
+        background: #fff;
+      }
+
+      &:hover{
+        cursor: pointer;
+        &:after{
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .user {
+    display: flex;
+    gap: 20px;
+
+    .username {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logout {
+
+    }
+  }
+}

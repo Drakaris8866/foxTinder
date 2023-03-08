@@ -1,8 +1,15 @@
-import { FC } from 'react'
+import {FC} from 'react'
+import styles from './Title.module.scss'
 
-const SubTitle : FC = () => {
+interface ISubTitle {
+    text: string
+}
+
+const SubTitle: FC<ISubTitle> = ({text}) => {
     return (
-        <div></div>
+        <h3 className={styles.subTitle}>
+            {text}
+        </h3>
     );
 }
 

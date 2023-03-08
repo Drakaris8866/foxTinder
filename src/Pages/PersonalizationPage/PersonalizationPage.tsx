@@ -1,8 +1,9 @@
-import { FC } from 'react'
+import {FC} from 'react'
+import Personalization from "../../components/Personalization/Personalization";
 
-const PersonalizationPage : FC = () => {
+const PersonalizationPage: FC = () => {
     return (
-        <div></div>
+        <Personalization/>
     );
 }
 

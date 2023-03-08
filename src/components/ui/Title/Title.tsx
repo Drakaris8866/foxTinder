@@ -1,8 +1,13 @@
-import { FC } from 'react'
+import {FC} from 'react'
+import styles from './Title.module.scss'
 
-const Title : FC = () => {
+interface ITitle {
+    text: string
+}
+
+const Title: FC<ITitle> = ({text}) => {
     return (
-        <div></div>
+        <h2 className={styles.title}>{text}</h2>
     );
 }
 

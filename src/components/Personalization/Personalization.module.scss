@@ -1,0 +1,83 @@
+.wrapper {
+  .container {
+    margin: 0 auto;
+    width: 80%;
+    padding: 10px;
+
+
+    .cards {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      width: 100%;
+      gap: 20px;
+      margin: 20px 0;
+
+      .card {
+        height: 500px;
+        width: 400px;
+        position: relative;
+
+        .delete {
+          position: absolute;
+          top: 0;
+          right: 0;
+          z-index: 2;
+
+          > svg {
+            width: 25px;
+            height: 25px;
+            border-radius: 0 0 0 5px;
+            background: #fff;
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
+
+        .img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          object-fit: cover;
+          height: 100%;
+          width: 100%;
+          border-radius: 5px;
+        }
+      }
+
+      .empty {
+        background: #f6bc6d;
+      }
+
+
+    }
+
+    .add {
+      width: 100%;
+      background: rgba(106, 62, 255, 0.78);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+
+      > button {
+        background: #ff8000;
+        color: #fff;
+        margin-top: 10px;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+.content {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
