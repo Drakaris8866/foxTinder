@@ -1,47 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import AuthService from "../../services/Auth.service";
-import {
-  IAuthResponse,
-  IImageForDeleteInfo,
-  IUnamePassword,
-  IUpdatedUserRes,
-  IUser,
-  IUserInfo,
-} from "./user.types";
+import { IImageForDeleteInfo, IUpdatedUserRes, IUserInfo } from "./user.types";
 import UserService from "../../services/User.service";
-import {IUserForCard} from "../../components/ui/userCard/UserCard";
-
-export const registration = createAsyncThunk<IAuthResponse, IUnamePassword>(
-  "user/registration",
-  async ({ username, password }, thunkAPI) => {
-    try {
-      const response = await AuthService.registration(username, password);
-      return response.data;
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e);
-    }
-  }
-);
-
-export const login = createAsyncThunk<IAuthResponse, IUnamePassword>(
-  "user/login",
-  async ({ username, password }, thunkAPI) => {
-    try {
-      const response = await AuthService.login(username, password);
-      return response.data;
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e);
-    }
-  }
-);
-export const logout = createAsyncThunk(
-  "user/logout",
-  async (thunkAPI) => await AuthService.logout()
-);
+import { IUser } from "../../shared/types/user.interface";
+import { updateUser } from "../auth/auth.slice";
 
 export const updateUserInfo = createAsyncThunk<IUpdatedUserRes, IUserInfo>(
   "user/updateInfo",
-  async ({ interests, about, gender, _id, images}: IUserInfo, thunkAPI) => {
+  async ({ interests, about, gender, _id, images }: IUserInfo, thunkAPI) => {
     try {
       const response = await UserService.updateUserInfo({
         interests,
@@ -50,6 +15,7 @@ export const updateUserInfo = createAsyncThunk<IUpdatedUserRes, IUserInfo>(
         _id,
         images,
       });
+
       return response.data as IUpdatedUserRes;
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -63,6 +29,7 @@ export const getRandomImg = createAsyncThunk<
 >("user/getRandomImg", async ({ _id }, thunkAPI) => {
   try {
     const response = await UserService.getRandomImg({ _id });
+    thunkAPI.dispatch(updateUser(response.data.updatedUser));
     return response.data;
   } catch (e) {
     return thunkAPI.rejectWithValue(e);
@@ -74,20 +41,39 @@ export const deleteImg = createAsyncThunk<IUpdatedUserRes, IImageForDeleteInfo>(
   async ({ _id, imageId }, thunkAPI) => {
     try {
       const response = await UserService.deleteImg({ _id, imageId });
+      thunkAPI.dispatch(updateUser(response.data.updatedUser));
       return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
     }
   }
 );
-export const getUsers = createAsyncThunk(
-  "user/getUsers",
-  async (_, thunkAPI) => {
-    try {
-      const response = await UserService.getUsers();
-      return response.data as IUserForCard[];
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e);
-    }
+
+interface IUpdateUserDislikeInfo {
+  usersId: string[];
+  userId: string;
+}
+
+export const updateUserDislikeInfo = createAsyncThunk<
+  IUpdatedUserRes,
+  IUpdateUserDislikeInfo
+>("user/updateUserDislikeInfo", async ({ usersId, userId }, thunkAPI) => {
+  try {
+    const response = await UserService.dislike(usersId, userId);
+    return response.data;
+  } catch (e) {
+    return thunkAPI.rejectWithValue(e);
   }
-);
+});
+
+export const updateUserLikeInfo = createAsyncThunk<
+  IUpdatedUserRes,
+  IUpdateUserDislikeInfo
+>("user/updateUserLikeInfo", async ({ usersId, userId }, thunkAPI) => {
+  try {
+    const response = await UserService.like(usersId, userId);
+    return response.data;
+  } catch (e) {
+    return thunkAPI.rejectWithValue(e);
+  }
+});

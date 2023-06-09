@@ -1,0 +1,25 @@
+.wrapper {
+  height: 71px;
+  width: 550px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  position: fixed;
+  bottom: 0;
+  background: #fff;
+  border: 1px solid#000;
+  .input {
+    flex: 1 1 auto;
+    > input {
+      width: 100%;
+    }
+  }
+  .send {
+    background: none;
+    border: none;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

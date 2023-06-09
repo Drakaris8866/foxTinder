@@ -23,16 +23,14 @@ const interestOptions = [
 ];
 
 const Personalization: FC = () => {
-  const {
-    user: {
-      _id,
-      personalization: { images: userImages, about, gender, interests },
-    },
-    isLoading,
-    isImageLoading,
-  } = useTypedSelector(({ user }) => user);
+  const { data: user, isLoading } = useTypedSelector(({ auth }) => auth);
 
-  const { control, formState, handleSubmit } = useForm<IUserInfo>({
+  const {
+    personalization: { about, gender, images, interests },
+    _id,
+  } = user;
+
+  const { control, handleSubmit } = useForm<IUserInfo>({
     mode: "onChange",
     defaultValues: {
       about,
@@ -66,9 +64,9 @@ const Personalization: FC = () => {
           footer={[]}
         >
           <div className={styles.content}>
-            {!isImageLoading ? (
+            {!isLoading ? (
               <>
-                {userImages?.length !== 5 && (
+                {images?.length !== 5 && (
                   <Button onClick={() => handleGetRandomImg(_id)}>
                     Выбрать случайную
                   </Button>
@@ -76,12 +74,12 @@ const Personalization: FC = () => {
                 <Button>Загрузить</Button>
               </>
             ) : (
-                <LoadingOutlined />
+              <LoadingOutlined />
             )}
           </div>
         </Modal>
         <div className={styles.cards}>
-          {userImages?.map((el) => (
+          {images?.map((el) => (
             <Card
               key={el}
               className={styles.card}
@@ -101,7 +99,7 @@ const Personalization: FC = () => {
               }
             />
           ))}
-          {[...new Array(5 - userImages.length )].map((_, idx) => (
+          {[...new Array(5 - images!.length)].map((_, idx) => (
             <Card key={idx} className={`${styles.card} ${styles.empty}`} />
           ))}
         </div>
@@ -146,7 +144,7 @@ const Personalization: FC = () => {
               />
             )}
           />
-          <Button size="large" htmlType="submit">
+          <Button loading size="large" htmlType="submit">
             Обновить
           </Button>
         </form>

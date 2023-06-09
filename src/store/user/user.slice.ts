@@ -1,84 +1,59 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
   deleteImg,
   getRandomImg,
-  getUsers,
-  login,
-  logout,
-  registration,
+  updateUserDislikeInfo,
   updateUserInfo,
+  updateUserLikeInfo,
 } from "./user.actions";
-import { IUser } from "./user.types";
 import { getItemFromStorage } from "../../utils/localStorage/localStorage";
-import { IUserForCard } from "../../components/ui/userCard/UserCard";
+import { IUser } from "../../shared/types/user.interface";
+import { IUserForCard } from "../users/users.types";
+import { IUserState } from "./user.types";
 
-const initialState = {
-  user: (getItemFromStorage("user") as IUser) || ({} as IUser),
-  users: [] as IUserForCard[],
+const initialState: IUserState = {
   isLoading: false,
+  isFavoriteUserLoading: false,
   isImageLoading: false,
+  errors: null,
 };
 
-export const authReducer = createSlice({
+export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(registration.pending, (state) => {
+      .addCase(updateUserInfo.pending, (state) => {
         state.isLoading = true;
-      })
-      .addCase(registration.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
-        state.user = payload.user;
-      })
-      .addCase(registration.rejected, (state) => {
-        state.isLoading = false;
-        state.user = {} as IUser;
-      })
-      .addCase(login.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(login.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
-        state.user = payload.user;
-      })
-      .addCase(login.rejected, (state) => {
-        state.isLoading = false;
-        state.user = {} as IUser;
-      })
-      .addCase(logout.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(logout.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
-        state.user = {} as IUser;
       })
       .addCase(updateUserInfo.fulfilled, (state, { payload }) => {
-        state.user = payload.updatedUser;
+        state.isLoading = false;
       })
-      .addCase(getRandomImg.pending, (state, { payload }) => {
+      .addCase(updateUserInfo.rejected, (state, { payload }) => {
+        state.errors = "Update user error";
+        state.isLoading = false;
+      })
+      .addCase(getRandomImg.pending, (state) => {
         state.isImageLoading = true;
       })
       .addCase(getRandomImg.fulfilled, (state, { payload }) => {
-        state.user = payload.updatedUser;
         state.isImageLoading = false;
       })
-      .addCase(deleteImg.pending, (state, { payload }) => {
+      .addCase(getRandomImg.rejected, (state) => {
+        state.isImageLoading = false;
+      })
+      .addCase(deleteImg.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(deleteImg.fulfilled, (state, { payload }) => {
-        state.user = payload.updatedUser;
         state.isLoading = false;
       })
-      .addCase(getUsers.fulfilled, (state, { payload }) => {
-        payload.splice(
-          payload.findIndex((el) => el.username === state.user.username),
-          1
-        );
-        state.users = payload;
-      });
+      .addCase(updateUserDislikeInfo.fulfilled, (state, { payload }) => {})
+      .addCase(updateUserLikeInfo.fulfilled, (state, { payload }) => {});
   },
 });
 
-export default authReducer.reducer;
+export const {} = userSlice.actions;
+
+export default userSlice.reducer;

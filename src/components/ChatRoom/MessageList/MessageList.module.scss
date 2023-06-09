@@ -1,0 +1,45 @@
+.messages {
+  width: 550px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  color: #fff;
+  flex: 1 1 auto;
+  color: black;
+  border: 1px solid#000;
+  padding-bottom: 68px;
+  .message {
+    .body {
+      padding: 5px;
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        .username {
+          font-weight: 700;
+        }
+        .date {
+          opacity: 0.8;
+        }
+      }
+      .content {
+        margin-top: 5px;
+        display: flex;
+        .inner {
+          flex: 1 1 90%;
+        }
+        > svg {
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+.items {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}

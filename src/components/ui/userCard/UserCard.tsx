@@ -1,22 +1,33 @@
 import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
 import { Button, Carousel } from "antd";
-import { FC } from "react";
-import { IPersonalization, IUser } from "../../../store/user/user.types";
+import { FC, useEffect } from "react";
 
 import styles from "./userCard.module.scss";
-import personalization from "../../Personalization/Personalization";
+import axios from "axios";
+import { IUserForCard } from "../../../store/users/users.types";
 
-export type IUserForCard = Omit<IUser, "password">;
 
 const UserCard: FC<IUserForCard> = ({
   personalization: { images, interests, gender, about },
   _id,
   username,
+  dislike,
+  like,
 }) => {
+  useEffect(() => {
+    async function fetchD() {
+      const { image } = await axios
+        .get("https://randomfox.ca/floof/?ref=apilist.fun")
+        .then((res) => res.data);
+    }
+
+    fetchD();
+  }, []);
+
   return (
     <div className={styles.card}>
       <div className={styles.front}>
-        {images.length !== 0 ? (
+        {images?.length !== 0 ? (
           <Carousel dotPosition="top" autoplay>
             {images?.map((img) => (
               <div className={styles.content} key={username}>
@@ -39,10 +50,10 @@ const UserCard: FC<IUserForCard> = ({
         </div>
       </div>
       <div className={styles.actions}>
-        <Button className={styles.btn}>
+        <Button onClick={() => dislike(_id)} className={styles.btn}>
           <DislikeOutlined />
         </Button>
-        <Button className={styles.btn}>
+        <Button onClick={() => like(_id)} className={styles.btn}>
           <LikeOutlined />
         </Button>
       </div>

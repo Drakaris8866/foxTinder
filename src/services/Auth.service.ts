@@ -1,5 +1,5 @@
 import {interseptor as axios}  from "../api/interseptors";
-import {IAuthResponse} from "../store/user/user.types";
+import { IAuthResponse } from './../store/auth/auth.types';
 
 class AuthService {
     async registration(username: string, password: string) {

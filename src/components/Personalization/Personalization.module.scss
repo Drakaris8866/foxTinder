@@ -6,16 +6,16 @@
 
 
     .cards {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, clamp(250px, 24%, 500px));
+      align-items: center;
+      justify-content: center;
       width: 100%;
-      gap: 20px;
+      gap: 10px;
       margin: 20px 0;
 
       .card {
         height: 500px;
-        width: 400px;
         position: relative;
 
         .delete {
